@@ -1,0 +1,38 @@
+{
+  "name": "xo_d",
+  "version": "0.0.0",
+  "description": "An awesome package",
+  "keywords": [],
+  "homepage": "https://github.com/vinsonchuong/xo_d",
+  "bugs": "https://github.com/vinsonchuong/xo_d/issues",
+  "license": "MIT",
+  "author": "Vinson Chuong <vinsonchuong@gmail.com>",
+  "repository": "vinsonchuong/xo_d",
+  "scripts": {
+    "test": "xo && ava",
+    "release": "semantic-release"
+  },
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^4.3.3",
+    "semantic-release": "^19.0.5",
+    "xo": "^0.52.4"
+  },
+  "ava": {
+    "verbose": true
+  },
+  "xo": {
+    "prettier": true,
+    "space": 2,
+    "semicolon": false,
+    "rules": {
+      "import/no-anonymous-default-export": "off"
+    }
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  }
+}
