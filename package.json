@@ -1,7 +1,7 @@
 {
   "name": "@vinsonchuong/xo_d",
   "version": "0.0.0",
-  "description": "An awesome package",
+  "description": "Speed up xo in the same way as eslint_d",
   "keywords": [],
   "homepage": "https://github.com/vinsonchuong/xo_d",
   "bugs": "https://github.com/vinsonchuong/xo_d/issues",
@@ -12,12 +12,29 @@
     "test": "xo && ava",
     "release": "semantic-release"
   },
-  "type": "module",
-  "dependencies": {},
+  "type": "commonjs",
+  "bin": {
+    "xo_d": "cli.js"
+  },
+  "dependencies": {
+    "core_d": "^5.0.1",
+    "eslint-formatter-pretty": "^4.1.0",
+    "get-stdin": "^9.0.0",
+    "meow": "^11.0.0",
+    "semver": "^7.3.8",
+    "xo": "^0.52.4"
+  },
   "devDependencies": {
     "ava": "^5.0.1",
-    "semantic-release": "^19.0.5",
-    "xo": "^0.52.4"
+    "ava-patterns": "^3.2.0",
+    "get-stream": "^6.0.1",
+    "semantic-release": "^19.0.5"
+  },
+  "devDependencies": {
+    "ava": "^5.0.1",
+    "ava-patterns": "^3.2.0",
+    "get-stream": "^6.0.1",
+    "semantic-release": "^19.0.5"
   },
   "ava": {
     "verbose": true
@@ -27,7 +44,10 @@
     "space": 2,
     "semicolon": false,
     "rules": {
-      "import/no-anonymous-default-export": "off"
+      "complexity": "off",
+      "import/no-anonymous-default-export": "off",
+      "unicorn/no-process-exit": "off",
+      "unicorn/prefer-module": "off"
     }
   },
   "release": {
