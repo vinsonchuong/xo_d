@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "core_d": "^5.0.1",
-    "eslint-formatter-pretty": "^4.1.0",
+    "eslint-formatter-pretty": "^5.0.0",
     "get-stdin": "^9.0.0",
     "meow": "^11.0.0",
     "semver": "^7.3.8",
