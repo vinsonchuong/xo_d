@@ -3693,9 +3693,9 @@ meow@^11.0.0:
     yargs-parser "^21.1.1"
 
 meow@^12.0.0:
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/meow/-/meow-12.0.0.tgz#8967bbb2c1ad35aba477f5d32a267c3197621728"
-  integrity sha512-QBGprBI3ar+lmWV9Bx6pdLUCQp5Q242X9hjPO0p9IwGyT0wRg0LUWBrRPN97Jzj8OrlT/30jEVYlCI0Nrf31qA==
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/meow/-/meow-12.0.1.tgz#b158fee6e319da4c54835f4c6c98f193978199fd"
+  integrity sha512-/QOqMALNoKQcJAOOdIXjNLtfcCdLXbMFyB1fOOPdm6RzfBTlsuodOCTBDjVbeUSmgDQb8UI2oONqYGtq1PKKKA==
   dependencies:
     "@types/minimist" "^1.2.2"
     camelcase-keys "^8.0.2"
