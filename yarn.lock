@@ -2460,9 +2460,9 @@ get-stream@^6.0.0, get-stream@^6.0.1:
   integrity sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==
 
 get-stream@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-8.0.0.tgz#6e07aa5b9b2a6e85e757c18a763e01e8a0722075"
-  integrity sha512-tdTnEIxF4oDc9Gd+PAApCAQWTf5t8N0/QDf4nH7ahIgc2YUvRL7259xiFlkLEpehTXc7QugSflnLLJap5Gd+HA==
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-8.0.1.tgz#def9dfd71742cd7754a7761ed43749a27d02eca2"
+  integrity sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==
 
 get-symbol-description@^1.0.0:
   version "1.0.0"
