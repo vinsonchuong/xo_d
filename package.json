@@ -25,7 +25,7 @@
     "xo": "^0.56.0"
   },
   "devDependencies": {
-    "ava": "^5.0.1",
+    "ava": "^6.0.0",
     "ava-patterns": "^3.2.0",
     "get-stream": "^8.0.0",
     "semantic-release": "^22.0.0"
