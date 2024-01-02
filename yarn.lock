@@ -2025,9 +2025,9 @@ eslint-formatter-pretty@^5.0.0:
     supports-hyperlinks "^2.0.0"
 
 eslint-formatter-pretty@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-formatter-pretty/-/eslint-formatter-pretty-6.0.0.tgz#a49f6f2c5f7e8a507866481f421890f22898bc03"
-  integrity sha512-cDaj8lotXgnLFdjprqpnJrSbMK49rU74Hwn4oFusXwRobVZ2T/zi8ulLFSNUojEaJFTaML6URlxmAuskBjzP4g==
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-formatter-pretty/-/eslint-formatter-pretty-6.0.1.tgz#8a8205c10a5a8e1862fcc7fde5d252d01ab0807d"
+  integrity sha512-znAUcXmBthdIUmlnRkPSxz3zSJHFUhfHF/nJPcCMVKg/mOa4yUie2Olqg1Ghbi5JJRBZVU3rIgzWSObvIspxMA==
   dependencies:
     "@types/eslint" "^8.44.6"
     ansi-escapes "^6.2.0"
