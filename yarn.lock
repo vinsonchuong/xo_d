@@ -525,6 +525,11 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@sec-ant/readable-stream@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@sec-ant/readable-stream/-/readable-stream-0.3.2.tgz#e5358b950524e945230983399f99b8a03c2e5ac5"
+  integrity sha512-ehKM7g3+k1wx+7xuZ4zar6K8uOU7rVTjJc2s0+49JjDkFo437OS7IEj24eElQXaZjI7r+7WqjGb6v068CWfivw==
+
 "@semantic-release/commit-analyzer@^11.0.0":
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/@semantic-release/commit-analyzer/-/commit-analyzer-11.0.0.tgz#824d4c04ebb6ffda9752c55f2b76f643fb09e0f4"
@@ -2823,10 +2828,18 @@ get-stream@^7.0.0:
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-7.0.1.tgz#1664dfe7d1678540ea6a4da3ae7cd59bf4e4a91e"
   integrity sha512-3M8C1EOFN6r8AMUhwUAACIoXZJEOufDU5+0gFFN5uNs6XYOralD2Pqkl7m046va6x77FwposWXbAhPPIOus7mQ==
 
-get-stream@^8.0.0, get-stream@^8.0.1:
+get-stream@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-8.0.1.tgz#def9dfd71742cd7754a7761ed43749a27d02eca2"
   integrity sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==
+
+get-stream@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-9.0.0.tgz#4f15399aebe8a3409c5b15a6355f65de2f4f0414"
+  integrity sha512-Bz12iotKJo0U7IgsPuwmr7/62/Twl3Im6vRg6Np2TiAUCTEhQdJAIOMikjVqbJBowQYoC+WTcwgke1hNWnLrrQ==
+  dependencies:
+    "@sec-ant/readable-stream" "^0.3.2"
+    is-stream "^4.0.1"
 
 get-symbol-description@^1.0.0:
   version "1.0.0"
@@ -3595,6 +3608,11 @@ is-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-3.0.0.tgz#e6bfd7aa6bef69f4f472ce9bb681e3e57b4319ac"
   integrity sha512-LnQR4bZ9IADDRSkvpqMGvt/tEJWclzklNgSw48V5EAaAeDd6qGvN8ei6k5p0tvxSR171VmGyHuTiAOfxAbr8kA==
+
+is-stream@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-4.0.1.tgz#375cf891e16d2e4baec250b85926cffc14720d9b"
+  integrity sha512-Dnz92NInDqYckGEUJv689RbRiTSEHCQ7wOVeALbkOz999YpqT46yMRIGtSNl2iCL1waAZSx40+h59NV/EwzV/A==
 
 is-string@^1.0.5, is-string@^1.0.7:
   version "1.0.7"
