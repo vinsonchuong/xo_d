@@ -13,22 +13,21 @@
     "release": "semantic-release"
   },
   "type": "commonjs",
-  "bin": {
-    "xo_d": "cli.js"
-  },
+  "bin": "cli.js",
   "dependencies": {
-    "core_d": "^6.0.0",
-    "eslint-formatter-pretty": "^6.0.0",
+    "core_d": "^6.1.0",
+    "eslint-formatter-pretty": "^6.0.1",
     "get-stdin": "^9.0.0",
-    "meow": "^13.0.0",
-    "semver": "^7.3.8",
-    "xo": "^1.0.0"
+    "meow": "^13.2.0",
+    "semver": "^7.7.2",
+    "xo": "^1.1.0"
   },
   "devDependencies": {
-    "ava": "^6.0.0",
-    "ava-patterns": "^3.2.0",
-    "get-stream": "^9.0.0",
-    "semantic-release": "^24.0.0"
+    "ava": "^5.3.1",
+    "ava-patterns": "^3.2.1",
+    "get-stream": "^9.0.1",
+    "semantic-release": "^24.2.5",
+    "typescript": "^5.8.3"
   },
   "ava": {
     "verbose": true
@@ -52,5 +51,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }

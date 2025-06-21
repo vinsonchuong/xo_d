@@ -3,10 +3,10 @@ import xo from 'xo'
 import formatterPretty from 'eslint-formatter-pretty'
 import openReport from 'xo/lib/open-report.js'
 
-async function log(report, options) {
+function log(report, options) {
   const reporter =
     options.reporter || process.env.GITHUB_ACTIONS
-      ? await xo.getFormatter(options.reporter || 'compact')
+      ? xo.getFormatter(options.reporter || 'compact')
       : formatterPretty
 
   const text = reporter(report.results, {rulesMeta: report.rulesMeta})
@@ -14,7 +14,7 @@ async function log(report, options) {
   return `${text}\n# exit ${exitCode}`
 }
 
-export default async function ([input, options, stdin]) {
+export default async function run([input, options, stdin]) {
   if (typeof options.printConfig === 'string') {
     options.filePath = options.printConfig
     const config = await xo.getConfig(options)
@@ -25,17 +25,17 @@ export default async function ([input, options, stdin]) {
     if (options.fix) {
       const {
         results: [result],
-      } = await xo.lintText(stdin, options)
+      } = xo.lintText(stdin, options)
       return (result && result.output) || stdin
     }
 
-    return log(await xo.lintText(stdin, options), options)
+    return log(xo.lintText(stdin, options), options)
   }
 
   const report = await xo.lintFiles(input, options)
 
   if (options.fix) {
-    await xo.outputFixes(report)
+    xo.outputFixes(report)
   }
 
   if (options.open) {

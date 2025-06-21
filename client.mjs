@@ -6,7 +6,7 @@ import semver from 'semver'
 
 const require = createRequire(import.meta.url)
 
-export default async function () {
+export default async function run() {
   process.env.CORE_D_TITLE = 'xo_d'
   process.env.CORE_D_DOTFILE = '.xo_d'
   process.env.CORE_D_SERVICE = require.resolve('./server.js')
