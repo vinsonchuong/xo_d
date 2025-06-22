@@ -1,8 +1,14 @@
 import process from 'node:process'
+import fs from 'node:fs/promises'
 import {createRequire} from 'node:module'
+import path from 'node:path'
 import getStdin from 'get-stdin'
+import {pathExists} from 'path-exists'
+import findCacheDirectory from 'find-cache-directory'
 import meow from 'meow'
-import semver from 'semver'
+
+const cacheDirName = 'xo-linter'
+const tsExtensions = new Set(['ts', 'tsx', 'cts', 'mts'])
 
 const require = createRequire(import.meta.url)
 
@@ -21,50 +27,32 @@ export default async function run() {
   ) {
     coreD[xoDCommand]()
   } else {
-    const {
-      input,
-      flags: options,
-      showVersion,
-    } = meow(
+    const cli = meow(
       `
-      Usage
-      $ xo_d [<file|glob> ...]
-      $ xo_d [start|stop|status]
+        Usage
+          $ xo_d [<file|glob> ...]
+          $ xo_d [start|stop|status]
 
-      Options
-      --fix             Automagically fix issues
-      --reporter        Reporter to use
-      --env             Environment preset  [Can be set multiple times]
-      --global          Global variable  [Can be set multiple times]
-      --ignore          Additional paths to ignore  [Can be set multiple times]
-      --space           Use space indent instead of tabs  [Default: 2]
-      --no-semicolon    Prevent use of semicolons
-      --prettier        Conform to Prettier code style
-      --node-version    Range of Node.js version to support
-      --plugin          Include third-party plugins  [Can be set multiple times]
-      --extend          Extend defaults with a custom config  [Can be set multiple times]
-      --open            Open files with issues in your editor
-      --quiet           Show only errors and no warnings
-      --extension       Additional extension to lint [Can be set multiple times]
-      --cwd=<dir>       Working directory for files
-      --stdin           Validate/fix code from stdin
-      --stdin-filename  Specify a filename for the --stdin option
-      --print-config    Print the effective ESLint config for the given file
+        Options
+          --fix             Automagically fix issues
+          --reporter        Reporter to use
+          --space           Use space indent instead of tabs [Default: 2]
+          --config          Path to a XO configuration file
+          --semicolon       Use semicolons [Default: true]
+          --react           Include React specific parsing and xo-react linting rules [Default: false]
+          --prettier        Format with prettier or turn off prettier conflicted rules when set to 'compat' [Default: false]
+          --version         Print XO version
+          --quiet           Show only errors and no warnings
+          --stdin           Validate/fix code from stdin
+          --stdin-filename  Specify a filename for the --stdin option
+          --ignore          Ignore pattern globs, can be set multiple times
+          --cwd=<dir>       Working directory for files [Default: process.cwd()]
 
-      Examples
-      $ xo
-      $ xo index.js
-      $ xo *.js !foo.js
-      $ xo --space
-      $ xo --env=node --env=mocha
-      $ xo --plugin=react
-      $ xo --plugin=html --extension=html
-      $ echo 'const x=true' | xo --stdin --fix
-      $ xo --print-config=index.js
-
-      Tips
-      - Add XO to your project with \`npm init xo\`.
-      - Put options in package.json instead of using flags so other tools can read it.
+        Examples
+          $ xo
+          $ xo index.js
+          $ xo *.js !foo.js
+          $ xo --space
       `,
       {
         importMeta: import.meta,
@@ -73,24 +61,19 @@ export default async function run() {
         flags: {
           fix: {
             type: 'boolean',
+            default: false,
           },
           reporter: {
             type: 'string',
           },
-          env: {
-            type: 'string',
-            isMultiple: true,
-          },
-          global: {
-            type: 'string',
-            isMultiple: true,
-          },
-          ignore: {
-            type: 'string',
-            isMultiple: true,
-          },
           space: {
             type: 'string',
+          },
+          config: {
+            type: 'string',
+          },
+          quiet: {
+            type: 'boolean',
           },
           semicolon: {
             type: 'boolean',
@@ -98,124 +81,151 @@ export default async function run() {
           prettier: {
             type: 'boolean',
           },
-          nodeVersion: {
-            type: 'string',
-          },
-          plugin: {
-            type: 'string',
-            isMultiple: true,
-          },
-          extend: {
-            type: 'string',
-            isMultiple: true,
-          },
-          open: {
+          react: {
             type: 'boolean',
-          },
-          quiet: {
-            type: 'boolean',
-          },
-          extension: {
-            type: 'string',
-            isMultiple: true,
+            default: false,
           },
           cwd: {
             type: 'string',
+            default: process.cwd(),
           },
-          printConfig: {
-            type: 'string',
+          version: {
+            type: 'boolean',
           },
           stdin: {
             type: 'boolean',
           },
           stdinFilename: {
             type: 'string',
+            default: 'stdin.js',
+          },
+          open: {
+            type: 'boolean',
+          },
+          ignore: {
+            type: 'string',
+            isMultiple: true,
+            aliases: ['ignores'],
           },
         },
       },
     )
 
-    for (const key in options) {
-      if (Array.isArray(options[key]) && options[key].length === 0) {
-        delete options[key]
-      }
+    const {input, flags: cliOptions, showVersion} = cli
+
+    const baseXoConfigOptions = {
+      space: cliOptions.space,
+      semicolon: cliOptions.semicolon,
+      prettier: cliOptions.prettier,
+      ignores: cliOptions.ignore,
+      react: cliOptions.react,
     }
 
-    if (typeof options.space === 'string') {
-      if (/^\d+$/u.test(options.space)) {
-        options.space = Number.parseInt(options.space, 10)
-      } else if (options.space === 'true') {
-        options.space = true
-      } else if (options.space === 'false') {
-        options.space = false
+    const linterOptions = {
+      fix: cliOptions.fix,
+      cwd: (cliOptions.cwd && path.resolve(cliOptions.cwd)) ?? process.cwd(),
+      quiet: cliOptions.quiet,
+      ts: true,
+    }
+
+    // Make data types for `options.space` match those of the API
+    if (typeof cliOptions.space === 'string') {
+      cliOptions.space = cliOptions.space.trim()
+
+      if (/^\d+$/u.test(cliOptions.space)) {
+        baseXoConfigOptions.space = Number.parseInt(cliOptions.space, 10)
+      } else if (cliOptions.space === 'true') {
+        baseXoConfigOptions.space = true
+      } else if (cliOptions.space === 'false') {
+        baseXoConfigOptions.space = false
       } else {
-        if (options.space !== '') {
-          input.push(options.space)
+        if (cliOptions.space !== '') {
+          // Assume `options.space` was set to a filename when run as `xo --space file.js`
+          input.push(cliOptions.space)
         }
 
-        options.space = true
+        baseXoConfigOptions.space = true
       }
     }
 
-    if (process.env.GITHUB_ACTIONS && !options.fix && !options.reporter) {
-      options.quiet = true
+    if (
+      process.env.GITHUB_ACTIONS &&
+      !linterOptions.fix &&
+      !cliOptions.reporter
+    ) {
+      linterOptions.quiet = true
     }
 
-    if (input[0] === '-') {
-      options.stdin = true
-      input.shift()
-    }
-
-    if (options.version) {
+    if (cliOptions.version) {
       showVersion()
     }
 
-    if (options.nodeVersion) {
-      if (options.nodeVersion === 'false') {
-        options.nodeVersion = false
-      } else if (!semver.validRange(options.nodeVersion)) {
-        console.error(
-          'The `--node-engine` flag must be a valid semver range (for example `>=6`)',
-        )
-        process.exit(1)
-      }
-    }
-
-    if (typeof options.printConfig === 'string') {
-      if (input.length > 0 || options.printConfig === '') {
-        console.error(
-          'The `--print-config` flag must be used with exactly one filename',
-        )
-        process.exit(1)
-      }
-
-      if (options.stdin) {
-        console.error('The `--print-config` flag is not supported on stdin')
-        process.exit(1)
-      }
-
-      options.filePath = options.printConfig
-
-      coreD.invoke([input, options, null])
-    } else if (options.stdin) {
+    if (cliOptions.stdin) {
       const stdin = await getStdin()
 
-      if (options.stdinFilename) {
-        options.filePath = options.stdinFilename
+      let shouldRemoveStdInFile = false
+
+      // For TypeScript, we need a file on the filesystem to lint it or else @typescript-eslint will blow up.
+      // We create a temporary file in the node_modules/.cache/xo-linter directory to avoid conflicts with the user's files and lint that file as if it were the stdin input as a work around.
+      // We clean up the file after linting.
+      if (
+        cliOptions.stdinFilename &&
+        tsExtensions.has(path.extname(cliOptions.stdinFilename).slice(1))
+      ) {
+        const absoluteFilePath = path.resolve(
+          cliOptions.cwd,
+          cliOptions.stdinFilename,
+        )
+        if (!(await pathExists(absoluteFilePath))) {
+          const cacheDir =
+            findCacheDirectory({name: cacheDirName, cwd: linterOptions.cwd}) ??
+            path.join(cliOptions.cwd, 'node_modules', '.cache', cacheDirName)
+          cliOptions.stdinFilename = path.join(
+            cacheDir,
+            path.basename(absoluteFilePath),
+          )
+          shouldRemoveStdInFile = true
+          baseXoConfigOptions.ignores = [
+            '!**/node_modules/**',
+            '!node_modules/**',
+            '!node_modules/',
+            `!${path.relative(cliOptions.cwd, cliOptions.stdinFilename)}`,
+          ]
+          if (!(await pathExists(path.dirname(cliOptions.stdinFilename)))) {
+            await fs.mkdir(path.dirname(cliOptions.stdinFilename), {
+              recursive: true,
+            })
+          }
+
+          await fs.writeFile(cliOptions.stdinFilename, stdin)
+        }
       }
 
-      if (options.fix) {
-        return coreD.invoke([input, options, stdin])
+      if (cliOptions.fix) {
+        return coreD.invoke([
+          cliOptions,
+          linterOptions,
+          baseXoConfigOptions,
+          input,
+          stdin,
+        ])
       }
 
-      if (options.open) {
-        console.error('The `--open` flag is not supported on stdin')
-        process.exit(1)
+      coreD.invoke([
+        cliOptions,
+        linterOptions,
+        baseXoConfigOptions,
+        input,
+        null,
+      ])
+
+      if (shouldRemoveStdInFile) {
+        await fs.rm(cliOptions.stdinFilename)
       }
 
-      coreD.invoke([input, options, stdin])
-    } else {
-      coreD.invoke([input, options, null])
+      return
     }
+
+    coreD.invoke([cliOptions, linterOptions, baseXoConfigOptions, input, null])
   }
 }

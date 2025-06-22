@@ -12,16 +12,18 @@ async function cli(args, {cwd, stdin}) {
     child.stdin.end(stdin)
   }
 
-  const [exitCode, stdout] = await Promise.all([
+  const [exitCode, stdout, stderr] = await Promise.all([
     new Promise((resolve) => {
       child.on('exit', resolve)
     }),
     getStream(child.stdout),
+    getStream(child.stderr),
   ])
 
   return {
     exitCode,
     stdout,
+    stderr,
   }
 }
 
@@ -45,7 +47,7 @@ test.serial('fix option', async (t) => {
 
 test.serial('fix option with stdin', async (t) => {
   const directory = await useTemporaryDirectory(t)
-  const {stdout} = await cli(['--fix', '--stdin'], {
+  const {stdout} = await cli(['--fix', '--stdin', '--stdin-filename=fix.js'], {
     cwd: directory.path,
     stdin: 'console.log()',
   })

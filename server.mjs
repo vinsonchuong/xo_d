@@ -1,46 +1,53 @@
-import process from 'node:process'
-import xo from 'xo'
+import {Xo} from 'xo'
 import formatterPretty from 'eslint-formatter-pretty'
-import openReport from 'xo/lib/open-report.js'
 
-function log(report, options) {
-  const reporter =
-    options.reporter || process.env.GITHUB_ACTIONS
-      ? xo.getFormatter(options.reporter || 'compact')
-      : formatterPretty
+export default async function run([
+  cliOptions,
+  linterOptions,
+  baseXoConfigOptions,
+  input,
+  stdin,
+]) {
+  const xo = new Xo(linterOptions, baseXoConfigOptions)
 
-  const text = reporter(report.results, {rulesMeta: report.rulesMeta})
-  const exitCode = report.errorCount === 0 ? 0 : 1
-  return `${text}\n# exit ${exitCode}`
-}
+  const log = async (report) => {
+    const reporter = cliOptions.reporter
+      ? await new Xo(linterOptions, baseXoConfigOptions).getFormatter(
+          cliOptions.reporter,
+        )
+      : {format: formatterPretty}
 
-export default async function run([input, options, stdin]) {
-  if (typeof options.printConfig === 'string') {
-    options.filePath = options.printConfig
-    const config = await xo.getConfig(options)
-    return JSON.stringify(config, undefined, '\t')
+    const text = reporter.format(report.results, {
+      cwd: linterOptions.cwd,
+      ...report,
+    })
+    const exitCode = report.errorCount === 0 ? 0 : 1
+
+    return `${text}\n# exit ${exitCode}`
   }
 
-  if (options.stdin) {
-    if (options.fix) {
+  if (cliOptions.stdin) {
+    if (cliOptions.fix) {
       const {
         results: [result],
-      } = xo.lintText(stdin, options)
-      return (result && result.output) || stdin
+      } = await xo.lintText(stdin, {
+        filePath: cliOptions.stdinFilename,
+      })
+      return result?.output ?? stdin
     }
 
-    return log(xo.lintText(stdin, options), options)
+    return log(
+      await xo.lintText(stdin, {
+        filePath: cliOptions.stdinFilename,
+        warnIgnored: false,
+      }),
+    )
   }
 
-  const report = await xo.lintFiles(input, options)
-
-  if (options.fix) {
-    xo.outputFixes(report)
+  const report = await xo.lintFiles(input)
+  if (cliOptions.fix) {
+    await Xo.outputFixes(report)
   }
 
-  if (options.open) {
-    openReport(report)
-  }
-
-  return log(report, options)
+  return log(report)
 }

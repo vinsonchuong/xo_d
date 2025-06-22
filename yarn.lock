@@ -1269,11 +1269,12 @@ __metadata:
     ava-patterns: "npm:^3.2.1"
     core_d: "npm:^6.1.0"
     eslint-formatter-pretty: "npm:^6.0.1"
+    find-cache-directory: "npm:^6.0.0"
     get-stdin: "npm:^9.0.0"
     get-stream: "npm:^9.0.1"
     meow: "npm:^13.2.0"
+    path-exists: "npm:^5.0.0"
     semantic-release: "npm:^24.2.5"
-    semver: "npm:^7.7.2"
     typescript: "npm:^5.8.3"
     xo: "npm:^1.1.0"
   bin:
