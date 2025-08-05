@@ -2488,11 +2488,11 @@ __metadata:
   linkType: hard
 
 "core_d@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "core_d@npm:6.1.0"
+  version: 6.1.1
+  resolution: "core_d@npm:6.1.1"
   dependencies:
     supports-color: "npm:^8.1.0"
-  checksum: 10c0/1580992fa163ef9a3005476bd135339b618f3251eb6f1e495f2b434766911b223f6603102c219eba0fd88f93db40640e64de3d7bd03c881aa542a645c0d0dc68
+  checksum: 10c0/a0fcddf115115faa5f46b1da01c06baa0423253e60d42ef7720f4ea833a27fe41ec44a2f8e19c18b63453d3494b8d4c51401f6f6a929adbb1216f90f681534b2
   languageName: node
   linkType: hard
 
