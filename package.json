@@ -16,7 +16,7 @@
   "bin": "cli.js",
   "dependencies": {
     "core_d": "^6.1.0",
-    "eslint-formatter-pretty": "^6.0.1",
+    "eslint-formatter-pretty": "^7.0.0",
     "find-cache-directory": "^6.0.0",
     "get-stdin": "^9.0.0",
     "meow": "^14.0.0",
