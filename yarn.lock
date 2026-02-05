@@ -1528,7 +1528,7 @@ __metadata:
     core_d: "npm:^6.1.0"
     eslint-formatter-pretty: "npm:^7.0.0"
     find-cache-directory: "npm:^6.0.0"
-    get-stdin: "npm:^9.0.0"
+    get-stdin: "npm:^10.0.0"
     get-stream: "npm:^9.0.1"
     meow: "npm:^14.0.0"
     path-exists: "npm:^5.0.0"
@@ -4121,6 +4121,13 @@ __metadata:
   version: 0.2.0
   resolution: "get-set-props@npm:0.2.0"
   checksum: 10c0/6030996bad46843651e46a737269a0db55bae4325e989addd93cb52ebb5c4829bca857550046da627e8158a24d4fe72bfacb34f28ecfed50fff69ff678bc042d
+  languageName: node
+  linkType: hard
+
+"get-stdin@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "get-stdin@npm:10.0.0"
+  checksum: 10c0/c86eb59f6c5705da4616ff0a7c038ed12cbbc68cde7d64d6654e047dcec3634244fa9b39d5dd81c4289421300ccbaf4ca9cf57cb844ef6f98107f3e9e7401c53
   languageName: node
   linkType: hard
 
