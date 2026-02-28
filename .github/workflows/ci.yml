@@ -1,5 +1,8 @@
 name: CI
 on: [push, pull_request]
+permissions:
+  id-token: write
+  contents: write
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -13,5 +16,3 @@ jobs:
     - run: yarn test
     - if: github.ref == 'refs/heads/main'
       run: yarn release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
