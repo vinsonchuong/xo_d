@@ -15,20 +15,20 @@
   "type": "commonjs",
   "bin": "cli.js",
   "dependencies": {
-    "core_d": "^6.1.0",
+    "core_d": "^6.1.1",
     "eslint-formatter-pretty": "^7.0.0",
     "find-cache-directory": "^6.0.0",
     "get-stdin": "^10.0.0",
-    "meow": "^14.0.0",
+    "meow": "^14.1.0",
     "path-exists": "^5.0.0",
-    "xo": "^1.1.0"
+    "xo": "^1.2.3"
   },
   "devDependencies": {
-    "ava": "^6.4.0",
+    "ava": "^7.0.0",
     "ava-patterns": "^3.2.1",
     "get-stream": "^9.0.1",
-    "semantic-release": "^25.0.0",
-    "typescript": "^5.8.3"
+    "semantic-release": "^25.0.3",
+    "typescript": "^5.9.3"
   },
   "ava": {
     "verbose": true
