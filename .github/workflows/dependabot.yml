@@ -8,3 +8,5 @@ jobs:
     steps:
       - if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
         run: gh pr merge --auto --rebase ${{ github.event.pull_request.html_url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

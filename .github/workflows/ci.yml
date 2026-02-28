@@ -16,3 +16,5 @@ jobs:
     - run: yarn test
     - if: github.ref == 'refs/heads/main'
       run: yarn release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
