@@ -49,10 +49,10 @@ export default async function run() {
           --cwd=<dir>       Working directory for files [Default: process.cwd()]
 
         Examples
-          $ xo
-          $ xo index.js
-          $ xo *.js !foo.js
-          $ xo --space
+          $ xo_d
+          $ xo_d index.js
+          $ xo_d *.js !foo.js
+          $ xo_d --space
       `,
       {
         importMeta: import.meta,
@@ -69,8 +69,9 @@ export default async function run() {
           space: {
             type: 'string',
           },
-          config: {
+          configPath: {
             type: 'string',
+            aliases: ['config'],
           },
           quiet: {
             type: 'boolean',
@@ -99,9 +100,6 @@ export default async function run() {
             type: 'string',
             default: 'stdin.js',
           },
-          open: {
-            type: 'boolean',
-          },
           ignore: {
             type: 'string',
             isMultiple: true,
@@ -126,6 +124,7 @@ export default async function run() {
       cwd: (cliOptions.cwd && path.resolve(cliOptions.cwd)) ?? process.cwd(),
       quiet: cliOptions.quiet,
       ts: true,
+      configPath: cliOptions.configPath,
     }
 
     // Make data types for `options.space` match those of the API

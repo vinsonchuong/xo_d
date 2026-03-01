@@ -37,6 +37,19 @@ test.serial('reporting errors', async (t) => {
   t.is(exitCode, 1)
 })
 
+test.serial('reporting errors in JSON format', async (t) => {
+  const directory = await useTemporaryDirectory(t)
+  await directory.writeFile('x.js', 'console.log()')
+
+  const {stdout, exitCode} = await cli(['--reporter=json', 'x.js'], {
+    cwd: directory.path,
+  })
+  const result = JSON.parse(stdout)
+  t.is(result[0].fixableErrorCount, 1)
+  t.is(result[0].messages[0].message, 'Missing semicolon.')
+  t.is(exitCode, 1)
+})
+
 test.serial('fix option', async (t) => {
   const directory = await useTemporaryDirectory(t)
   const filePath = await directory.writeFile('x.js', 'console.log()')
