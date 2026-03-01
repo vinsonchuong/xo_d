@@ -201,16 +201,18 @@ export default async function run() {
         }
       }
 
-      if (cliOptions.fix) {
-        return coreD.invoke([
-          cliOptions,
-          linterOptions,
-          baseXoConfigOptions,
-          input,
-          stdin,
-        ])
-      }
+      coreD.invoke([
+        cliOptions,
+        linterOptions,
+        baseXoConfigOptions,
+        input,
+        stdin,
+      ])
 
+      if (shouldRemoveStdInFile) {
+        await fs.rm(cliOptions.stdinFilename)
+      }
+    } else {
       coreD.invoke([
         cliOptions,
         linterOptions,
@@ -218,14 +220,6 @@ export default async function run() {
         input,
         null,
       ])
-
-      if (shouldRemoveStdInFile) {
-        await fs.rm(cliOptions.stdinFilename)
-      }
-
-      return
     }
-
-    coreD.invoke([cliOptions, linterOptions, baseXoConfigOptions, input, null])
   }
 }
