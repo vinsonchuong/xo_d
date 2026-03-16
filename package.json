@@ -21,7 +21,7 @@
     "get-stdin": "^10.0.0",
     "meow": "^14.1.0",
     "path-exists": "^5.0.0",
-    "xo": "^1.2.3"
+    "xo": "^2.0.2"
   },
   "devDependencies": {
     "ava": "^7.0.0",
