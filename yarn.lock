@@ -3441,8 +3441,8 @@ __metadata:
   linkType: hard
 
 "eslint-formatter-pretty@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "eslint-formatter-pretty@npm:7.0.0"
+  version: 7.1.0
+  resolution: "eslint-formatter-pretty@npm:7.1.0"
   dependencies:
     "@types/eslint": "npm:^9.6.1"
     ansi-escapes: "npm:^7.1.0"
@@ -3452,7 +3452,7 @@ __metadata:
     plur: "npm:^5.1.0"
     string-width: "npm:^8.1.0"
     supports-hyperlinks: "npm:^4.3.0"
-  checksum: 10c0/99e910fe7f32b7dc683aa3f6a8ff05ac555b22ab6a0fe9adaf5f1840ac99ada9b1f585471bed355d01cca39ed8dfa2c82286a668eeef4b000a17c0ca99a8ef5b
+  checksum: 10c0/6b11f71e03ab677225687da8e368947933f70472c3dd0e00fca63e01f74f780cbd5d947582995dd86964567c82424753025874749c72a65211bfa4181a33e97b
   languageName: node
   linkType: hard
 
