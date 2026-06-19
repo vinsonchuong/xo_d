@@ -8993,8 +8993,8 @@ __metadata:
   linkType: hard
 
 "xo@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "xo@npm:3.0.1"
+  version: 3.0.2
+  resolution: "xo@npm:3.0.2"
   dependencies:
     "@sindresorhus/tsconfig": "npm:^8.1.0"
     arrify: "npm:^3.0.0"
@@ -9017,7 +9017,7 @@ __metadata:
     typescript: "npm:^6.0.3"
   bin:
     xo: dist/cli.js
-  checksum: 10c0/308f6f86ad1d92b8d2c00a8afe03be6f009215c22555d18120fc1a97d2c5b2e3f5e8b7b7f1bf04411975dfc7dbaa72ae5017a52cf52fad4927ba558d0a22dea4
+  checksum: 10c0/5880da28a72a24f79ebdcee1f958dc4a99c943aa7e043afcdd2a27ce7fe3c89441a2aafb87311f61a5c850bf5b32f70b2f29677badf260d63045b6bb4acc9912
   languageName: node
   linkType: hard
 
