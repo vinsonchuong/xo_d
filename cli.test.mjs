@@ -32,8 +32,8 @@ test.serial('reporting errors', async (t) => {
   await directory.writeFile('x.js', 'console.log()')
 
   const {stdout, exitCode} = await cli(['x.js'], {cwd: directory.path})
-  t.regex(stdout, /x\.js/)
-  t.regex(stdout, /Missing semicolon/)
+  t.regex(stdout, /x\.js/v)
+  t.regex(stdout, /Missing semicolon/v)
   t.is(exitCode, 1)
 })
 

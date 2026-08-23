@@ -11,23 +11,43 @@ export default async function run([
   const xo = new Xo(linterOptions, baseXoConfigOptions)
 
   const log = async (report) => {
-    const reporter = cliOptions.reporter
-      ? await new Xo(linterOptions, baseXoConfigOptions).getFormatter(
-          cliOptions.reporter,
-        )
-      : {format: formatterPretty}
+    const reporterName = cliOptions.reporter
+    const shouldUsePrettyReporter = reporterName === undefined
 
-    const text = reporter.format(report.results, {
-      cwd: linterOptions.cwd,
-      ...report,
-    })
+    let text
+
+    if (shouldUsePrettyReporter) {
+      const counts = {
+        errorCount: 0,
+        warningCount: 0,
+        fixableErrorCount: 0,
+        fixableWarningCount: 0,
+      }
+      for (const result of report.results) {
+        counts.errorCount += result.errorCount
+        counts.warningCount += result.warningCount
+        counts.fixableErrorCount += result.fixableErrorCount
+        counts.fixableWarningCount += result.fixableWarningCount
+      }
+
+      const formatterMetadata = {
+        cwd: linterOptions.cwd,
+        ...report,
+        ...counts,
+      }
+      text = formatterPretty(report.results, formatterMetadata)
+    } else {
+      const reporter = await xo.getFormatter(reporterName)
+      text = await reporter.format(report.results)
+    }
+
     const exitCode = report.errorCount === 0 ? 0 : 1
 
     return `${text}\n# exit ${exitCode}`
   }
 
   if (cliOptions.stdin) {
-    if (cliOptions.fix) {
+    if (linterOptions.fix) {
       const {
         results: [result],
       } = await xo.lintText(stdin, {

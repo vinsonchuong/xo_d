@@ -19,12 +19,7 @@ export default async function run() {
   const coreD = require('core_d')
 
   const xoDCommand = process.argv[2]
-  if (
-    xoDCommand === 'start' ||
-    xoDCommand === 'stop' ||
-    xoDCommand === 'restart' ||
-    xoDCommand === 'status'
-  ) {
+  if (['start', 'stop', 'restart', 'status'].includes(xoDCommand)) {
     coreD[xoDCommand]()
   } else {
     const cli = meow(
@@ -34,19 +29,19 @@ export default async function run() {
           $ xo_d [start|stop|status]
 
         Options
-          --fix             Automagically fix issues
-          --reporter        Reporter to use
-          --space           Use space indent instead of tabs [Default: 2]
-          --config          Path to a XO configuration file
-          --semicolon       Use semicolons [Default: true]
-          --react           Include React specific parsing and xo-react linting rules [Default: false]
-          --prettier        Format with prettier or turn off prettier conflicted rules when set to 'compat' [Default: false]
-          --version         Print XO version
-          --quiet           Show only errors and no warnings
-          --stdin           Validate/fix code from stdin
-          --stdin-filename  Specify a filename for the --stdin option
-          --ignore          Ignore pattern globs, can be set multiple times
-          --cwd=<dir>       Working directory for files [Default: process.cwd()]
+          --fix                     Automagically fix issues
+          --reporter                Reporter to use
+          --space                   Use space indent instead of tabs [Default: 2]
+          --config                  Path to a XO configuration file
+          --semicolon               Use semicolons [Default: true]
+          --prettier                Format with prettier or turn off Prettier-conflicted rules when set to 'compat' [Default: false]
+          --version                 Print XO version
+          --quiet                   Show only errors and no warnings
+          --stdin                   Validate/fix code from stdin
+          --stdin-filename          Specify a filename for the --stdin option
+          --ignore                  Ignore pattern globs, can be set multiple times
+          --suppressions-location   Path to a custom ESLint suppressions file
+          --cwd=<dir>               Working directory for files [Default: process.cwd()]
 
         Examples
           $ xo_d
@@ -82,10 +77,6 @@ export default async function run() {
           prettier: {
             type: 'boolean',
           },
-          react: {
-            type: 'boolean',
-            default: false,
-          },
           cwd: {
             type: 'string',
             default: process.cwd(),
@@ -105,6 +96,9 @@ export default async function run() {
             isMultiple: true,
             aliases: ['ignores'],
           },
+          suppressionsLocation: {
+            type: 'string',
+          },
         },
       },
     )
@@ -116,23 +110,22 @@ export default async function run() {
       semicolon: cliOptions.semicolon,
       prettier: cliOptions.prettier,
       ignores: cliOptions.ignore,
-      react: cliOptions.react,
     }
 
     const linterOptions = {
       fix: cliOptions.fix,
-      cwd: (cliOptions.cwd && path.resolve(cliOptions.cwd)) ?? process.cwd(),
+      cwd: cliOptions.cwd === '' ? process.cwd() : path.resolve(cliOptions.cwd),
       quiet: cliOptions.quiet,
       ts: true,
       configPath: cliOptions.configPath,
+      suppressionsLocation: cliOptions.suppressionsLocation,
     }
 
     // Make data types for `options.space` match those of the API
     if (typeof cliOptions.space === 'string') {
       cliOptions.space = cliOptions.space.trim()
-
-      if (/^\d+$/u.test(cliOptions.space)) {
-        baseXoConfigOptions.space = Number.parseInt(cliOptions.space, 10)
+      if (/^\d+$/v.test(cliOptions.space)) {
+        baseXoConfigOptions.space = Number(cliOptions.space)
       } else if (cliOptions.space === 'true') {
         baseXoConfigOptions.space = true
       } else if (cliOptions.space === 'false') {
@@ -147,10 +140,11 @@ export default async function run() {
       }
     }
 
+    const isGitHubActions = Boolean(process.env.GITHUB_ACTIONS)
     if (
-      process.env.GITHUB_ACTIONS &&
+      isGitHubActions &&
       !linterOptions.fix &&
-      !cliOptions.reporter
+      cliOptions.reporter === undefined
     ) {
       linterOptions.quiet = true
     }
@@ -163,12 +157,11 @@ export default async function run() {
       const stdin = await getStdin()
 
       let shouldRemoveStdInFile = false
-
       // For TypeScript, we need a file on the filesystem to lint it or else @typescript-eslint will blow up.
       // We create a temporary file in the node_modules/.cache/xo-linter directory to avoid conflicts with the user's files and lint that file as if it were the stdin input as a work around.
       // We clean up the file after linting.
       if (
-        cliOptions.stdinFilename &&
+        cliOptions.stdinFilename !== '' &&
         tsExtensions.has(path.extname(cliOptions.stdinFilename).slice(1))
       ) {
         const absoluteFilePath = path.resolve(
@@ -208,6 +201,7 @@ export default async function run() {
         stdin,
       ])
 
+      // TODO: Move into server
       if (shouldRemoveStdInFile) {
         await fs.rm(cliOptions.stdinFilename)
       }
