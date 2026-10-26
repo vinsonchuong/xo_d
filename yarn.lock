@@ -2248,8 +2248,8 @@ __metadata:
   linkType: hard
 
 "ava@npm:^8.0.1":
-  version: 8.1.0
-  resolution: "ava@npm:8.1.0"
+  version: 8.1.2
+  resolution: "ava@npm:8.1.2"
   dependencies:
     "@vercel/nft": "npm:^1.11.0"
     acorn: "npm:^8.19.0"
@@ -2269,7 +2269,7 @@ __metadata:
     concordance: "npm:^5.0.4"
     currently-unhandled: "npm:^0.4.1"
     debug: "npm:^4.4.3"
-    emittery: "npm:^2.1.0"
+    emittery: "npm:^2.2.0"
     figures: "npm:^6.1.0"
     globby: "npm:^16.2.4"
     ignore-by-default: "npm:^2.1.0"
@@ -2283,7 +2283,7 @@ __metadata:
     package-config: "npm:^5.0.0"
     picomatch: "npm:^4.0.7"
     plur: "npm:^6.0.0"
-    pretty-ms: "npm:^9.3.1"
+    pretty-ms: "npm:^10.0.0"
     resolve-cwd: "npm:^3.0.0"
     slash: "npm:^5.1.0"
     stack-utils: "npm:^2.0.6"
@@ -2298,7 +2298,7 @@ __metadata:
       optional: true
   bin:
     ava: ./entrypoints/cli.js
-  checksum: 10c0/59c1ebb7b6c1121259bfe9529484a96a110110de87c6be128785538340d693e66853efb5a900d44cfd0b7a502e21116de16e8d86507398c5fbb6715fc9a96969
+  checksum: 10c0/b01ed0168d47d70fa997583020679b6169d5db5f12277fd0ba935fe87db8c3afb4f4bb334dbc8a664a43a7e536627c55b734a23e372825d294dbb923b9356665
   languageName: node
   linkType: hard
 
@@ -3219,10 +3219,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emittery@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "emittery@npm:2.1.0"
-  checksum: 10c0/f5fb436699e217c9b464c051bdb9134e7c6e5eb26d8487ac72ff7df6e5c8405678ecf2bfef38ab06610673dd0313ac48567a90dcfd4b6a61822f7c18269c7d3e
+"emittery@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "emittery@npm:2.2.0"
+  checksum: 10c0/0ac98b7925833a6dcdbd0e460f85f042054e0e9dcc38efc4adacd3a8e3d45ed3650a95c18414560f893415d94cf0feaee22718292e5c1c165191605397ef5890
   languageName: node
   linkType: hard
 
@@ -7516,6 +7516,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pretty-ms@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "pretty-ms@npm:10.0.0"
+  checksum: 10c0/ce40c4612989782b3656a18c56f67bd71d90269d245b5f6f11be38f34fa1a57833374344b31714df679704ee761ab6df725f1ee455945334f973c510e4804ce2
+  languageName: node
+  linkType: hard
+
 "pretty-ms@npm:^8.0.0":
   version: 8.0.0
   resolution: "pretty-ms@npm:8.0.0"
@@ -7531,15 +7538,6 @@ __metadata:
   dependencies:
     parse-ms: "npm:^4.0.0"
   checksum: 10c0/ab6d066f90e9f77020426986e1b018369f41575674544c539aabec2e63a20fec01166d8cf6571d0e165ad11cfe5a8134a2a48a36d42ab291c59c6deca5264cbb
-  languageName: node
-  linkType: hard
-
-"pretty-ms@npm:^9.3.1":
-  version: 9.3.1
-  resolution: "pretty-ms@npm:9.3.1"
-  dependencies:
-    parse-ms: "npm:^4.0.0"
-  checksum: 10c0/f034e6197922da40d6f0e73c835baa0f87d89f660966deb651305ee0567e20d5258b9c1782de098069b479036653bd1ad4ee1d6d816d1fde0e47c62d0ce5763d
   languageName: node
   linkType: hard
 
