@@ -2248,8 +2248,8 @@ __metadata:
   linkType: hard
 
 "ava@npm:^8.0.1":
-  version: 8.1.2
-  resolution: "ava@npm:8.1.2"
+  version: 8.2.0
+  resolution: "ava@npm:8.2.0"
   dependencies:
     "@vercel/nft": "npm:^1.11.0"
     acorn: "npm:^8.19.0"
@@ -2298,7 +2298,7 @@ __metadata:
       optional: true
   bin:
     ava: ./entrypoints/cli.js
-  checksum: 10c0/b01ed0168d47d70fa997583020679b6169d5db5f12277fd0ba935fe87db8c3afb4f4bb334dbc8a664a43a7e536627c55b734a23e372825d294dbb923b9356665
+  checksum: 10c0/59559d687f0cfb08a572ab145025d304ebd1d9df3814ab7b9fd651325416ecf415d1c055e3d0e4ae5fcec823ac3a0d3b3f038237bfbe0d1f08b61368faa5fe95
   languageName: node
   linkType: hard
 
